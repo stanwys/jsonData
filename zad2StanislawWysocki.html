@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="utf-8" />
+ <title>Stanisław Wysocki - zadanie 2</title>
+ <script type="text/javascript"
+src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+ <script>
+$(function(){
+
+var data;
+function laptop(data){
+    $('table').append("<tr><td>Id</td><td>Name</td><td>Username</td><td>Email</td><td>Street</td><td>City</td>"+
+    "<td>Zipcode</td><td>Website</td><td>Company Name</td></tr>");
+        $.each(data,function(i,item){
+            
+            $('table').append("<tr class="+(parseInt(item.id)%2)+"><td>"+item.id+"</td><td>"+item.name+"</td><td>"+item.username+"</td>"+
+            "<td>"+item.email+"</td>"+"<td>"+item.address.street+"</td>"+"<td>"+item.address.city+"</td>"+
+            "<td>"+item.address.zipcode+"</td>"+"<td>"+item.website+"</td>"+"<td>"+item.company.name+"</td>"+
+            +"</td></tr>");
+        });
+}
+
+function tablet(data){
+    $('table').append("<tr><td>Id</td><td>Name/City</td><td>Username/Zipcode</td><td>Email/Website</td><td>Street/Company Name</td></tr>");
+        $.each(data,function(i,item){
+            
+            $('table').append("<tr class="+(parseInt(item.id)%2)+"><td>"+item.id+"</td><td>"+item.name+"</td><td>"+item.username+"</td>"+
+            "<td>"+item.email+"</td>"+"<td>"+item.address.street+"</td></tr>"+"<tr class="+(parseInt(item.id)%2)+"><td></td><td>"+item.address.city+"</td>"+
+            "<td>"+item.address.zipcode+"</td>"+"<td>"+item.website+"</td>"+"<td>"+item.company.name+"</td></tr>");
+        });
+}
+
+function horizPhone(data){
+    $('table').append("<tr><td>Id</td><td>Name/<br>City/<br>Street</td><td>Username/<br>Zipcode/<br>Company Name</td><td>Email/<br>Website</td></tr>");
+        $.each(data,function(i,item){
+            
+            $('table').append("<tr class="+(parseInt(item.id)%2)+"><td>"+item.id+"</td><td>"+item.name+"</td><td>"+item.username+"</td>"+
+            "<td>"+item.email+"</td></tr>"+"<tr class="+(parseInt(item.id)%2)+"><td></td><td>"+item.address.city+"</td>"+"<td>"+item.address.zipcode+"</td>"+
+            "<td>"+item.website+"</td></tr>"+"<tr class="+(parseInt(item.id)%2)+"><td></td><td>"+item.address.street+"</td>"+"<td>"+item.company.name+"</td><td></td></tr>");
+        
+        }); 
+}
+
+function vertPhone(data){
+    $('table').append("<tr><td>Id</td><td>Name/<br>City/<br>Street/<br>Email</td><td>Username/<br>Zipcode/<br>Company Name/<br>Website</td></tr>");
+        $.each(data,function(i,item){
+            
+            $('table').append("<tr class="+(parseInt(item.id)%2)+"><td>"+item.id+"</td><td>"+item.name+"</td><td>"+item.username+"</td></tr>"+
+            "<tr class="+(parseInt(item.id)%2)+"><td></td><td>"+item.address.city+"</td>"+"<td>"+item.address.zipcode+"</td></tr>"+
+            "<tr class="+(parseInt(item.id)%2)+"><td></td><td>"+item.address.street+"</td>"+"<td>"+item.company.name+"</td></tr>"+
+            "<tr class="+(parseInt(item.id)%2)+"><td></td><td>"+item.email+"</td><td>"+item.website+"</td></tr>");
+        });
+}
+
+$(window).on('load', function(){
+    $.getJSON("http://jsonplaceholder.typicode.com/users?callback=?",function(dataJson){
+    data=dataJson;
+    //po zaladowaniu strony
+    //wyswietl zawartosc
+    $('div').append("<table border='1'></table>");
+    if( $( window ).width() > 1079 ){
+        laptop(data);
+    }
+    else if( $( window ).width() > 646 ){
+        tablet(data);
+    }
+    else if ($( window ).width() > 468){
+        horizPhone(data);
+    }
+    else{
+        vertPhone(data);
+    }
+    $("body,html").css("margin", 0);
+    $("html,body").css("padding",0);
+    //pokoloruj wiersze nieparzystych rekordow
+    $(".1").css( "background-color", "yellow" );
+    })
+});
+
+ $( window ).resize(function() {
+  $('table').empty();  
+  if( $( window ).width() > 1079 ){
+        laptop(data);
+    }
+    else if( $( window ).width() > 646 ){
+        tablet(data);
+    }
+    else if ($( window ).width() > 468){
+        horizPhone(data);
+    }
+    else{
+        vertPhone(data);
+    }
+    //pokoloruj wiersze nieparzystych rekordow
+    $(".1").css( "background-color", "yellow" );
+  });
+})
+ </script>
+</head>
+<body>
+ <h1>Users</h1>
+ <div></div>
+</body>
+</html>
